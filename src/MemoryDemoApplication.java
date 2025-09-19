@@ -18,24 +18,8 @@ public class MemoryDemoApplication {
 		// Выделение большого массива, как в исходном примере
 		var array = new byte[1_000_000_000];
 
-        // Список для хранения ссылок на объекты, которые будут перемещены в старшее поколение
-		List<byte[]> retainedObjects = new ArrayList<>();
-
-		for (int i = 0; i < Integer.MAX_VALUE; i++) {
-			// Запись в большой массив
-			array[i] = 1;
-
-			// Создание нового объекта (1KB массива) в Eden
-			byte[] edenObject = new byte[1024]; // 1KB
-
-			// По желанию можно удерживать некоторые объекты для предотвращения их сборки
-			if (i % 50_000 == 0) {
-				retainedObjects.add(edenObject); // Удерживаем объект
-				// Ограничиваем размер списка, чтобы не заполнить старшее поколение
-				if (retainedObjects.size() > 1000) {
-					retainedObjects.remove(0);
-				}
-			}
+		for (int i = 0; i < 1_000_000_000; i++) {
+			array[i] = (byte) i;
 
 			// Каждые 10_000 итераций делаем паузу
 			if (i % 10_000 == 0) {
